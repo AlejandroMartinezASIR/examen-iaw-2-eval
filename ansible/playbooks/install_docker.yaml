@@ -26,9 +26,3 @@
       apt:
         name: docker-compose
         state: present
-
-    - name: Empenzamos el servicio de Docker
-      service:
-        name: docker.service
-        state: started
-        enabled: yes
