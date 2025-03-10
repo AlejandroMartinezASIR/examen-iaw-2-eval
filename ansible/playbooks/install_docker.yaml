@@ -1,0 +1,32 @@
+- name: Install Docker and Docker Compose
+  hosts: ejercicio2
+  become: yes
+  vars_files:
+    - vars/variables.yaml
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    
+    - name: Ensure docker-compose service is running
+      service:
+        name: docker-compose
+        state: started
+        enabled: yes
