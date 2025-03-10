@@ -15,7 +15,7 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "Nombre de la clave SSH"
-  default     = "vockey"
+  default     = "examen"
 }
 
 variable "security_group_name" {
