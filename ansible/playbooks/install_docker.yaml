@@ -1,4 +1,4 @@
-- name: Install Docker and Docker Compose
+- name: Instalar Docker y Docker Compose
   hosts: ejercicio2
   become: yes
   vars_files:
@@ -9,7 +9,7 @@
       apt:
         update_cache: yes
 
-    - name: Desistalamos Docker existentes
+    - name: Remove existing Docker
       apt:
         name: "{{ item }}"
         state: absent
@@ -17,12 +17,12 @@
         - docker.io
         - docker-compose
 
-    - name: Instalamos Docker
+    - name: Install Docker
       apt:
-        name: docker.io
+        name: "{{ docker_package }}"
         state: present
 
-    - name: Instalamos Docker Compose
+    - name: Install Docker Compose
       apt:
-        name: docker-compose
+        name: "{{ docker_compose_package }}"
         state: present

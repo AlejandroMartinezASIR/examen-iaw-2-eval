@@ -182,3 +182,57 @@ output "security_group_name" {
 ### Instancia
 ![grupo](capturas/captura7.png)
 ![grupo](capturas/captura8.png)
+
+## Ejercicio 3
+Instalaremos docker y docker compose a traves de ansible
+### inventario
+~~~~
+[ejercicio2]
+172.31.28.102
+
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/home/ubuntu/examen-iaw-2-eval/ansible/examen.pem
+ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'
+~~~~
+### playbook
+~~~~
+- name: Instalar Docker y Docker Compose
+  hosts: ejercicio2
+  become: yes
+  vars_files:
+    - vars/variables.yaml
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Remove existing Docker
+      apt:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - docker.io
+        - docker-compose
+
+    - name: Install Docker
+      apt:
+        name: "{{ docker_package }}"
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: "{{ docker_compose_package }}"
+        state: present
+~~~~
+
+### Variables
+~~~~
+docker_package: docker.io
+docker_compose_package: docker-compose
+~~~~
+### Ejecución
+![](capturas/captura11.png)
+
+## Ejercicio 4
