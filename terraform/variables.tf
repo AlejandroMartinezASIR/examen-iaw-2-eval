@@ -20,7 +20,7 @@ variable "key_name" {
 
 variable "security_group_name" {
   description = "Nombre del grupo de seguridad"
-  default     = "grupo_seguridad_ejercicio_2"
+  default     = "grupo_seguridad_ejercicio"
 }
 
 variable "instance_name" {
