@@ -9,6 +9,14 @@
       apt:
         update_cache: yes
 
+    - name: Remove existing Docker
+      apt:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - docker.io
+        - docker-compose
+
     - name: Install Docker
       apt:
         name: "{{ docker_package }}"
