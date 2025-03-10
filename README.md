@@ -236,3 +236,69 @@ docker_compose_package: docker-compose
 ![](capturas/captura11.png)
 
 ## Ejercicio 4
+Creacion de una imagen docker
+### Dockerfile
+~~~~
+FROM ubuntu:24.04
+
+RUN apt update \
+    && apt install nginx -y && \
+    apt install git -y && \
+    rm -rf /var/lib/apt/lists/*
+
+    RUN git clone https://github.com/AlejandroMartinezASIR/MKDOKS.git /site \
+    && cp -R /site/* /usr/share/nginx/html/
+
+    EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+~~~~
+Creamos un contenedor en el puerto 80
+~~~~
+docker run -d -p 8080:80 --name my-nginx-container my-nginx-image
+~~~~
+## Ejercicio 5
+Publicar imagen en dockerhub
+~~~~
+name: Build and Test Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Cambia 'main' por la rama que prefieras
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        tags: my-nginx-image:latest
+
+    - name: Run Docker container
+      run: docker run -d -p 8080:80 --name my-nginx-container my-nginx-image:latest
+
+    - name: Test Docker container
+      run: |
+        sleep 10  # Esperar a que el contenedor esté listo
+        curl -f http://localhost:8080 || (docker logs my-nginx-container && exit 1)
+
+    - name: Stop and remove Docker container
+      run: docker rm -f my-nginx-container
+~~~~
