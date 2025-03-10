@@ -29,6 +29,6 @@
 
     - name: Ensure Docker service is running
       service:
-        name: docker
+        name: docker.service
         state: started
         enabled: yes
