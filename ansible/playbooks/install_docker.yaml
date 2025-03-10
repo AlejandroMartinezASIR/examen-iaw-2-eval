@@ -9,7 +9,7 @@
       apt:
         update_cache: yes
 
-    - name: Remove existing Docker
+    - name: Desistalamos Docker existentes
       apt:
         name: "{{ item }}"
         state: absent
@@ -17,17 +17,17 @@
         - docker.io
         - docker-compose
 
-    - name: Install Docker
+    - name: Instalamos Docker
       apt:
         name: docker.io
         state: present
 
-    - name: Install Docker Compose
+    - name: Instalamos Docker Compose
       apt:
         name: docker-compose
         state: present
 
-    - name: Ensure Docker service is running
+    - name: Empenzamos el servicio de Docker
       service:
         name: docker.service
         state: started
